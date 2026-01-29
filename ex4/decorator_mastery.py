@@ -1,18 +1,22 @@
 """Exercise 4: Master’s Tower."""
 
 from sys import stderr
-from typing import Callable
+from typing import Callable, Any
 from functools import wraps
+from time import time, sleep
 
 
 def spell_timer(func: Callable) -> Callable:
     """Time execution decorator."""
 
     @wraps(func)
-    def wrapper(*args, **kwargs) -> None:
+    def wrapper(*args, **kwargs) -> Any:
         print(f"Casting {func.__name__}...")
-        func(*args, **kwargs)
-        print("Spell completed in time seconds")
+        seconds: float = time()
+        result = func(*args, **kwargs)
+        seconds = time() - seconds
+        print(f"Spell completed in time {seconds:.2}")
+        return result
 
     return wrapper
 
@@ -22,11 +26,18 @@ def power_validator(min_power: int) -> Callable:
 
     def decorator(func) -> Callable:
         @wraps(func)
-        def wrapper(*args, **kwargs) -> None:
-            if power >= min_power:
-                func(*args, **kwargs)
+        def wrapper(*args, **kwargs) -> Any:
+            if "power" in kwargs:
+                power = kwargs["power"]
+            elif len(args) > 0 and isinstance(args[0], int):
+                power = args[0]
             else:
-                print("Insufficient power for this spell")
+                return "Insufficient power for this spell"
+
+            if power >= min_power:
+                return func(*args, **kwargs)
+            else:
+                return "Insufficient power for this spell"
 
         return wrapper
 
@@ -37,12 +48,15 @@ def retry_spell(max_attempts: int) -> Callable:
     """Retry decorator."""
 
     def decorator(func) -> Callable:
-        def wrapper(*args, **kwargs) -> None:
+        @wraps(func)
+        def wrapper(*args, **kwargs) -> Any:
             for i in range(max_attempts):
                 try:
-                    return func()
+                    return func(*args, **kwargs)
                 except Exception:
-                    print(f"Spell failed, retrying... ({i}/{max_attempts})")
+                    print(
+                        f"Spell failed, retrying... ({i + 1}/{max_attempts})"
+                    )
             print(f"Spell casting failed after {max_attempts} attempts")
 
         return wrapper
@@ -70,6 +84,44 @@ class MageGuild:
 
 def main() -> None:
     """Define main entry of the program."""
+    print("\n\x1b[32mTesting spell timer...\x1b[0m")
+
+    @spell_timer
+    def plasma_bolt(enchantment: str) -> str:
+        """Cast an enchanted plasma bolt."""
+        sleep(1)
+        return f"Casting {enchantment} Plasma Bolt"
+
+    print(f"{plasma_bolt('Deadly') = }")
+
+    print("\n\x1b[32mTesting power validator...\x1b[0m")
+
+    @power_validator(5)
+    def fire_ball(power: int) -> str:
+        return f"Casting Fire Ball with {power} power"
+
+    print(f"{fire_ball(3) = }")
+    print(f"{fire_ball(7) = }")
+
+    print("\n\x1b[32mTesting retry spell...\x1b[0m")
+
+    @retry_spell(2)
+    def meteor_shower(mana: int) -> str:
+        if mana < 8:
+            raise ValueError("There is no enough mana to invoke meteors")
+        else:
+            return "Casting a Meteor Shower"
+
+    print(f"{meteor_shower(3) = }")
+    print(f"{meteor_shower(12) = }")
+
+    print("\n\x1b[32mTesting MageGuild...\x1b[0m")
+    print(f"{MageGuild.validate_mage_name('Gandalf the Gray') = }")
+    print(f"{MageGuild.validate_mage_name('#4$%  343AAA') = }")
+
+    guild: MageGuild = MageGuild()
+    print(f"{guild.cast_spell('Ice Sickle', power=4) = }")
+    print(f"{guild.cast_spell('Blinding Light', power=11) = }")
 
 
 if __name__ == "__main__":
