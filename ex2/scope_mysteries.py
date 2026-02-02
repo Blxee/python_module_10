@@ -43,7 +43,7 @@ def memory_vault() -> dict[str, Callable]:
 
     def store(key: Hashable, value: Any) -> None:
         nonlocal data
-        data[key] = value
+        data = {**data, key: value}
 
     def recall(key: Hashable) -> Any:
         return data.get(key, "Memory not found")
@@ -58,22 +58,22 @@ def main() -> None:
     """Define main entry of the program."""
     print("\nTesting mage counter...")
     counter = mage_counter()
-    print(f"{counter() = }")
-    print(f"{counter() = }")
-    print(f"{counter() = }")
+    print(f"{counter()=}")
+    print(f"{counter()=}")
+    print(f"{counter()=}")
 
     print("\nTesting spell accumulator...")
     add_power = spell_accumulator(10)
-    print(f"{add_power(4) = }")
-    print(f"{add_power(6) = }")
-    print(f"{add_power(1) = }")
+    print(f"{add_power(4)=}")
+    print(f"{add_power(6)=}")
+    print(f"{add_power(1)=}")
 
     print("\nTesting enchantment factory...")
     enchant = enchantment_factory("Flaming")
-    print(f"{enchant('Sword') = }")
-    print(f"{enchant('Bow') = }")
+    print(f"{enchant('Sword')=}")
+    print(f"{enchant('Bow')=}")
     enchant = enchantment_factory("Deadly")
-    print(f"{enchant('Waraxe') = }")
+    print(f"{enchant('Waraxe')=}")
 
     print("\nTesting memory vault...")
     data_operations: dict[str, Callable] = memory_vault()
@@ -81,12 +81,12 @@ def main() -> None:
     recall: Callable = data_operations["recall"]
 
     print("[INFO]: storing armor and weapon:")
-    print(f"{store('armor', 'Diamond Chestplate') = }")
-    print(f"{store('weapon', 'Great Fire Sword') = }")
+    print(f"{store('armor', 'Diamond Chestplate')=}")
+    print(f"{store('weapon', 'Great Fire Sword')=}")
     print("[INFO]: retrieving armor and weapon:")
-    print(f"{recall('armor') = }")
-    print(f"{recall('weapon') = }")
-    print(f"{recall('shield') = }")
+    print(f"{recall('armor')=}")
+    print(f"{recall('weapon')=}")
+    print(f"{recall('shield')=}")
 
 
 if __name__ == "__main__":
