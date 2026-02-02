@@ -81,10 +81,10 @@ def main() -> None:
     """Define main entry of the program."""
     print("\nTesting spell reducer...")
     nums: list[int] = [12, 34, 6, 1, 67]
-    print(f"\t{spell_reducer(nums, 'add') = }")
-    print(f"\t{spell_reducer(nums, 'multiply') = }")
-    print(f"\t{spell_reducer(nums, 'max') = }")
-    print(f"\t{spell_reducer(nums, 'min') = }")
+    print(f"\t{spell_reducer(nums, 'add')=}")
+    print(f"\t{spell_reducer(nums, 'multiply')=}")
+    print(f"\t{spell_reducer(nums, 'max')=}")
+    print(f"\t{spell_reducer(nums, 'min')=}")
 
     def base_enchantment(target: str, power: int, element: str) -> str:
         return (
@@ -98,13 +98,13 @@ def main() -> None:
     ice_enchant = enchants["ice_enchant"]
     lightning_enchant = enchants["lightning_enchant"]
     target: str = "Sword"
-    print(f"\t{fire_enchant(target) = }")
-    print(f"\t{ice_enchant(target) = }")
-    print(f"\t{lightning_enchant(target) = }")
+    print(f"\t{fire_enchant(target)=}")
+    print(f"\t{ice_enchant(target)=}")
+    print(f"\t{lightning_enchant(target)=}")
 
     print("\nTesting memoized fibonacci...")
-    print(f"\t{memoized_fibonacci(10) = }")
-    print(f"\t{memoized_fibonacci(15) = }")
+    print(f"\t{memoized_fibonacci(10)=}")
+    print(f"\t{memoized_fibonacci(15)=}")
 
     print("\nTesting spell dispatcher...")
     cast_magic: Callable = spell_dispatcher()
