@@ -92,7 +92,7 @@ def main() -> None:
         sleep(1)
         return f"Casting {enchantment} Plasma Bolt"
 
-    print(f"{plasma_bolt('Deadly') = }")
+    print(f"{plasma_bolt('Deadly')=}")
 
     print("\n\x1b[32mTesting power validator...\x1b[0m")
 
@@ -100,8 +100,8 @@ def main() -> None:
     def fire_ball(power: int) -> str:
         return f"Casting Fire Ball with {power} power"
 
-    print(f"{fire_ball(3) = }")
-    print(f"{fire_ball(7) = }")
+    print(f"{fire_ball(3)=}")
+    print(f"{fire_ball(7)=}")
 
     print("\n\x1b[32mTesting retry spell...\x1b[0m")
 
@@ -112,16 +112,16 @@ def main() -> None:
         else:
             return "Casting a Meteor Shower"
 
-    print(f"{meteor_shower(3) = }")
-    print(f"{meteor_shower(12) = }")
+    print(f"{meteor_shower(3)=}")
+    print(f"{meteor_shower(12)=}")
 
     print("\n\x1b[32mTesting MageGuild...\x1b[0m")
-    print(f"{MageGuild.validate_mage_name('Gandalf the Gray') = }")
-    print(f"{MageGuild.validate_mage_name('#4$%  343AAA') = }")
+    print(f"{MageGuild.validate_mage_name('Gandalf the Gray')=}")
+    print(f"{MageGuild.validate_mage_name('#4$%  343AAA')=}")
 
     guild: MageGuild = MageGuild()
-    print(f"{guild.cast_spell('Ice Sickle', power=4) = }")
-    print(f"{guild.cast_spell('Blinding Light', power=11) = }")
+    print(f"{guild.cast_spell('Ice Sickle', power=4)=}")
+    print(f"{guild.cast_spell('Blinding Light', power=11)=}")
 
 
 if __name__ == "__main__":
