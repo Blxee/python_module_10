@@ -55,7 +55,7 @@ def spell_dispatcher() -> Callable:
     """Create single dispatch system."""
 
     @singledispatch
-    def cast_spell(arg) -> str:
+    def cast_spell(arg: Any) -> str:
         """Cast anything."""
         return f"You just casted your damn {arg} ;-; ..."
 

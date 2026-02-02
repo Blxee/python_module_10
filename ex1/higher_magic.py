@@ -1,17 +1,23 @@
 """Exercise 1: Higher Realm."""
 
 from sys import stderr
-from typing import Callable
+from typing import Callable, Any
 
 
 def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
     """Combine two spells."""
+    if not callable(spell1) or not callable(spell2):
+        print(
+            "[Error]: invalid argument types for spell_combiner()",
+            file=stderr,
+        )
+        exit(1)
     print(
         f"[INFO]: combining \x1b[33m{spell1.__name__}\x1b[0m "
         f"with \x1b[33m{spell2.__name__}\x1b[0m"
     )
 
-    def result(*args, **kwargs):
+    def result(*args, **kwargs) -> tuple[Any, Any]:
         return (spell1(*args, **kwargs), spell2(*args, **kwargs))
 
     return result
@@ -19,6 +25,12 @@ def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
 
 def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
     """Amplify spell power."""
+    if not callable(base_spell) or not isinstance(multiplier, int):
+        print(
+            "[Error]: invalid argument types for power_amplifier()",
+            file=stderr,
+        )
+        exit(1)
     print(
         f"[INFO]: amplifying \x1b[33m{base_spell.__name__}\x1b[0m "
         f"\x1b[31m{multiplier}\x1b[0m times"
@@ -32,9 +44,15 @@ def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
 
 def conditional_caster(condition: Callable, spell: Callable) -> Callable:
     """Cast spell conditionally."""
+    if not callable(condition) or not callable(spell):
+        print(
+            "[Error]: invalid argument types for conditional_caster()",
+            file=stderr,
+        )
+        exit(1)
     print(f"[INFO]: adding condition to \x1b[33m{spell.__name__}\x1b[0m ")
 
-    def result(*args, **kwargs):
+    def result(*args, **kwargs) -> Any | str:
         if condition(*args, **kwargs):
             return spell(*args, **kwargs)
         else:
@@ -45,12 +63,18 @@ def conditional_caster(condition: Callable, spell: Callable) -> Callable:
 
 def spell_sequence(spells: list[Callable]) -> Callable:
     """Create spell sequence."""
+    if any(not callable(spell) for spell in spells):
+        print(
+            "[Error]: invalid argument types for spell_sequence()",
+            file=stderr,
+        )
+        exit(1)
     print(
         "[INFO]: making a spell sequence:",
         ", ".join(f"\x1b[33m{spell.__name__}\x1b[0m" for spell in spells),
     )
 
-    def result(*args, **kwargs):
+    def result(*args, **kwargs) -> list[Any]:
         return [spell(*args, **kwargs) for spell in spells]
 
     return result
